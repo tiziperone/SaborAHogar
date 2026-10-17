@@ -91,7 +91,7 @@ const PRODUCTS = [
   {
     id: "sorrentinos-ricota-espinaca",
     name: "Sorrentinos de ricota y verduras",
-    desc: "Relleno suave de ricota y espinaca, con masa fina.",
+    desc: "Relleno suave de ricota y verduras, con masa fina.",
     category: "sorrentinos",
     image: "Fotos/SorrentinosTarjeta.webp",
     badge: "",
