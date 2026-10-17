@@ -250,7 +250,7 @@ function renderCart() {
   const container = $("#cartItems");
 
   if (items.length === 0) {
-    container.innerHTML = `<p class="cart__empty">Todavía no agregaste nada. ¡Elegí tus pastas favoritas! 🍝</p>`;
+    container.innerHTML = `<p class="cart__empty">Todavía no agregaste nada 😔. ¡Elegí tus pastas favoritas! 🍝</p>`;
   } else {
     container.innerHTML = items
       .map(
