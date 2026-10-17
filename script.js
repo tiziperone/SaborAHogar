@@ -2,110 +2,100 @@
    CONFIGURACIÓN
    ========================================= */
 // Código de país + código de área + número, sin 0 ni 15.
-// Ejemplo Argentina: 5493424123456
-const WHATSAPP_NUMBER = "5493400000000";
+// 54 (Argentina) + 9 (celular) + 3482 (área) + 236252
+const WHATSAPP_NUMBER = "5493482236252";
 
 /* =========================================
-   PRODUCTOS (editá esta lista a gusto)
-   image: ruta de la foto de tarjeta (si no hay, se muestra el emoji)
+   PRODUCTOS
+   options: cada presentación con su precio
+   image: foto de tarjeta (ruta dentro de la carpeta del sitio)
    ========================================= */
 const PRODUCTS = [
+  // FIDEOS
   {
-    id: "ravioles-ricota",
-    name: "Ravioles de ricota y espinaca",
-    desc: "Rellenos cremosos de ricota y espinaca, con masa fina de huevo.",
-    price: 8500,
-    unit: "porción 500 g",
-    category: "rellenas",
-    image: "Fotos/RaviolesTarjeta.webp",
-    emoji: "🥟",
-    badge: "Más pedido"
+    id: "fideos-huevo",
+    name: "Fideos de huevo",
+    desc: "Tallarines frescos al huevo, cortados a mano.",
+    category: "fideos",
+    image: "Fotos/FideosTarjeta.webp",
+    badge: "Clásico",
+    options: [
+      { label: "500 g", price: 3500 },
+      { label: "1 kg", price: 6000 }
+    ]
   },
   {
-    id: "sorrentinos-jamon",
+    id: "fideos-espinaca",
+    name: "Fideos de espinaca",
+    desc: "Fideos verdes de espinaca, perfectos para salsas cremosas.",
+    category: "fideos",
+    image: "Fotos/FideosEspinacaTarjeta.webp",
+    badge: "",
+    options: [
+      { label: "500 g", price: 4000 },
+      { label: "1 kg", price: 7000 }
+    ]
+  },
+
+  // RAVIOLES
+  {
+    id: "raviolones-jamon-queso",
+    name: "Raviolones de jamón y queso",
+    desc: "Rellenos generosos de jamón cocido y queso.",
+    category: "ravioles",
+    image: "Fotos/RaviolesTarjeta.webp",
+    badge: "Más pedido",
+    options: [
+      { label: "Media docena", price: 5000 },
+      { label: "Docena", price: 9000 }
+    ]
+  },
+  {
+    id: "raviolones-ricota-espinaca",
+    name: "Raviolones de ricota y espinaca",
+    desc: "Ricota cremosa con espinaca, con masa fina de huevo.",
+    category: "ravioles",
+    image: "Fotos/RaviolesTarjeta.webp",
+    badge: "",
+    options: [
+      { label: "Media docena", price: 5000 },
+      { label: "Docena", price: 9000 }
+    ]
+  },
+
+  // SORRENTINOS
+  {
+    id: "sorrentinos-jamon-queso",
     name: "Sorrentinos de jamón y queso",
     desc: "Grandes, con jamón cocido y queso de máxima calidad.",
-    price: 9200,
-    unit: "porción 500 g",
-    category: "rellenas",
+    category: "sorrentinos",
     image: "Fotos/SorrentinosTarjeta.webp",
-    emoji: "🥠",
-    badge: ""
+    badge: "",
+    options: [
+      { label: "Media docena", price: 5000 },
+      { label: "Docena", price: 9000 }
+    ]
   },
   {
-    id: "capellettis",
-    name: "Capelletti de pollo",
-    desc: "Pequeños y delicados, rellenos de pollo asado y verduras.",
-    price: 8800,
-    unit: "porción 500 g",
-    category: "rellenas",
-    image: "",
-    emoji: "🌰",
-    badge: ""
-  },
-  {
-    id: "noquis-papa",
-    name: "Ñoquis de papa",
-    desc: "Tradicionales, livianos, hechos el mismo día.",
-    price: 6000,
-    unit: "porción 500 g",
-    category: "clasicas",
-    image: "",
-    emoji: "🥔",
-    badge: "Clásico"
-  },
-  {
-    id: "tallarines",
-    name: "Tallarines frescos",
-    desc: "Cortados a mano, con el punto justo de huevo.",
-    price: 5500,
-    unit: "porción 500 g",
-    category: "clasicas",
-    image: "Fotos/FideosTarjeta.webp",
-    emoji: "🍝",
-    badge: ""
-  },
-  {
-    id: "fettuccine-espinaca",
-    name: "Fettuccine de espinaca",
-    desc: "Cintas verdes de espinaca, perfectas para salsas cremosas.",
-    price: 5800,
-    unit: "porción 500 g",
-    category: "clasicas",
-    image: "Fotos/FideosEspinacaTarjeta.webp",
-    emoji: "🥬",
-    badge: ""
-  },
-  {
-    id: "combo-familiar",
-    name: "Combo familiar",
-    desc: "1 kg de ravioles + 500 g de tallarines. Ideal para 4 personas.",
-    price: 15500,
-    unit: "combo 1,5 kg",
-    category: "combos",
-    image: "",
-    emoji: "🎁",
-    badge: "Ahorro"
-  },
-  {
-    id: "combo-parejas",
-    name: "Combo para dos",
-    desc: "500 g de sorrentinos + 500 g de ñoquis, con salsa de regalo.",
-    price: 13000,
-    unit: "combo 1 kg",
-    category: "combos",
-    image: "",
-    emoji: "💞",
-    badge: ""
+    id: "sorrentinos-ricota-espinaca",
+    name: "Sorrentinos de ricota y espinaca",
+    desc: "Relleno suave de ricota y espinaca, con masa fina de huevo.",
+    category: "sorrentinos",
+    image: "Fotos/SorrentinosTarjeta.webp",
+    badge: "",
+    options: [
+      { label: "Media docena", price: 5000 },
+      { label: "Docena", price: 9000 }
+    ]
   }
 ];
 
 /* =========================================
    ESTADO
    ========================================= */
-const STORAGE_KEY = "sabor-a-hogar-cart";
-let cart = loadCart();   // { productId: cantidad } -> carrito
-let pickQty = {};        // { productId: cantidad } -> selector de cada tarjeta
+const STORAGE_KEY = "sabor-a-hogar-cart-v2";
+let cart = loadCart();   // { "id__idx": cantidad }
+let pickState = {};      // { id: { opt: 0, qty: 1 } }
 
 /* =========================================
    HELPERS
@@ -139,70 +129,117 @@ function getProduct(id) {
   return PRODUCTS.find((p) => p.id === id);
 }
 
-function getPickQty(id) {
-  return pickQty[id] || 1;
+function getPick(id) {
+  if (!pickState[id]) pickState[id] = { opt: 0, qty: 1 };
+  return pickState[id];
+}
+
+function makeKey(id, optIdx) {
+  return `${id}__${optIdx}`;
 }
 
 function cartEntries() {
   return Object.entries(cart)
     .filter(([, qty]) => qty > 0)
-    .map(([id, qty]) => ({ product: getProduct(id), qty }))
-    .filter((item) => item.product);
+    .map(([key, qty]) => {
+      const [id, idx] = key.split("__");
+      const product = getProduct(id);
+      const option = product ? product.options[Number(idx)] : null;
+      return { key, product, option, qty };
+    })
+    .filter((item) => item.product && item.option);
 }
 
 function cartTotal() {
-  return cartEntries().reduce((sum, { product, qty }) => sum + product.price * qty, 0);
+  return cartEntries().reduce((sum, { option, qty }) => sum + option.price * qty, 0);
 }
 
 function cartCount() {
   return cartEntries().reduce((sum, { qty }) => sum + qty, 0);
 }
 
+function lineText(product, option, qty) {
+  return `${qty} x ${product.name} (${option.label}) — ${money.format(option.price * qty)}`;
+}
+
 /* =========================================
    RENDER PRODUCTOS
    ========================================= */
 function mediaHTML(p) {
-  if (p.image) {
-    return `<img src="${p.image}" alt="${p.name}" loading="lazy" />`;
-  }
-  return `<span class="card__emoji">${p.emoji}</span>`;
+  if (p.image) return `<img src="${p.image}" alt="${p.name}" loading="lazy" />`;
+  return `<span class="card__emoji">🍝</span>`;
+}
+
+function cardHTML(p, i) {
+  const pick = getPick(p.id);
+  const opt = p.options[pick.opt];
+
+  return `
+    <article class="card" data-card="${p.id}" style="animation-delay:${i * 0.05}s">
+      <div class="card__media">
+        ${mediaHTML(p)}
+        ${p.badge ? `<span class="card__badge">${p.badge}</span>` : ""}
+      </div>
+      <div class="card__body">
+        <h3>${p.name}</h3>
+        <p class="card__desc">${p.desc}</p>
+
+        <div class="card__label">Presentación</div>
+        <div class="card__opts">
+          ${p.options
+            .map(
+              (o, idx) => `
+            <button class="opt ${idx === pick.opt ? "is-active" : ""}"
+              data-action="opt" data-id="${p.id}" data-idx="${idx}">${o.label}</button>`
+            )
+            .join("")}
+        </div>
+
+        <div class="price">
+          <span class="price-value">${money.format(opt.price)}</span>
+          <small class="price-unit">/ ${opt.label}</small>
+        </div>
+
+        <div class="card__qty">
+          <span class="card__qty-label">Cantidad</span>
+          <div class="qty">
+            <button data-action="minus" data-id="${p.id}" aria-label="Quitar">−</button>
+            <span class="qty-value">${pick.qty}</span>
+            <button data-action="plus" data-id="${p.id}" aria-label="Agregar">+</button>
+          </div>
+        </div>
+
+        <div class="card__subtotal">Subtotal: <strong class="subtotal">${money.format(opt.price * pick.qty)}</strong></div>
+
+        <div class="card__actions">
+          <button class="btn btn--add" data-action="add" data-id="${p.id}">Al carrito</button>
+          <button class="btn btn--buy" data-action="buy" data-id="${p.id}">Comprar</button>
+        </div>
+      </div>
+    </article>`;
 }
 
 function renderProducts(filter = "todas") {
-  const grid = $("#productGrid");
   const list = filter === "todas" ? PRODUCTS : PRODUCTS.filter((p) => p.category === filter);
+  $("#productGrid").innerHTML = list.map((p, i) => cardHTML(p, i)).join("");
+}
 
-  grid.innerHTML = list
-    .map((p, i) => {
-      const qty = getPickQty(p.id);
-      return `
-        <article class="card" style="animation-delay:${i * 0.05}s">
-          <div class="card__media">
-            ${mediaHTML(p)}
-            ${p.badge ? `<span class="card__badge">${p.badge}</span>` : ""}
-          </div>
-          <div class="card__body">
-            <h3>${p.name}</h3>
-            <p class="card__desc">${p.desc}</p>
-            <div class="price">${money.format(p.price)} <small>/ ${p.unit}</small></div>
+/* Actualiza una tarjeta sin volver a renderizar todo */
+function updateCard(id) {
+  const p = getProduct(id);
+  const card = document.querySelector(`[data-card="${id}"]`);
+  if (!p || !card) return;
 
-            <div class="card__qty">
-              <span class="card__qty-label">Cantidad</span>
-              <div class="qty">
-                <button data-action="minus" data-id="${p.id}" aria-label="Quitar">−</button>
-                <span id="pick-${p.id}">${qty}</span>
-                <button data-action="plus" data-id="${p.id}" aria-label="Agregar">+</button>
-              </div>
-            </div>
+  const pick = getPick(id);
+  const opt = p.options[pick.opt];
 
-            <div class="card__actions">
-              <button class="btn btn--add" data-action="add" data-id="${p.id}">Al carrito</button>
-              <button class="btn btn--buy" data-action="buy" data-id="${p.id}">Comprar</button>
-            </div>
-          </div>
-        </article>`;
-    })
-    .join("");
+  card.querySelectorAll(".opt").forEach((btn, idx) => {
+    btn.classList.toggle("is-active", idx === pick.opt);
+  });
+  card.querySelector(".price-value").textContent = money.format(opt.price);
+  card.querySelector(".price-unit").textContent = `/ ${opt.label}`;
+  card.querySelector(".qty-value").textContent = pick.qty;
+  card.querySelector(".subtotal").textContent = money.format(opt.price * pick.qty);
 }
 
 /* =========================================
@@ -217,14 +254,14 @@ function renderCart() {
   } else {
     container.innerHTML = items
       .map(
-        ({ product, qty }) => `
+        ({ key, product, option, qty }) => `
         <div class="cart__item">
           <div>
             <h4>${product.name}</h4>
-            <div class="sub">${money.format(product.price)} × ${qty} (${product.unit})</div>
-            <button class="remove" data-action="remove" data-id="${product.id}">Quitar</button>
+            <div class="sub">${option.label} · ${money.format(option.price)} × ${qty}</div>
+            <button class="remove" data-action="remove" data-key="${key}">Quitar</button>
           </div>
-          <div class="line-total">${money.format(product.price * qty)}</div>
+          <div class="line-total">${money.format(option.price * qty)}</div>
         </div>`
       )
       .join("");
@@ -244,20 +281,16 @@ function refreshCart() {
 /* =========================================
    ACCIONES
    ========================================= */
-function changePickQty(id, delta) {
-  pickQty[id] = Math.max(1, getPickQty(id) + delta);
-  const el = document.getElementById(`pick-${id}`);
-  if (el) el.textContent = pickQty[id];
-}
-
-function addToCart(id, qty) {
-  cart[id] = (cart[id] || 0) + qty;
+function addToCart(id) {
+  const pick = getPick(id);
+  const key = makeKey(id, pick.opt);
+  cart[key] = (cart[key] || 0) + pick.qty;
   refreshCart();
   bumpCartButton();
 }
 
-function removeFromCart(id) {
-  delete cart[id];
+function removeFromCart(key) {
+  delete cart[key];
   refreshCart();
 }
 
@@ -270,46 +303,59 @@ function bumpCartButton() {
 
 /* =========================================
    WHATSAPP
+   (mensajes sin emojis: en algunos celulares se ven rotos)
    ========================================= */
 function buildWhatsAppLink(message) {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 }
 
-function buyNow(id, qty) {
+function buyNow(id) {
   const p = getProduct(id);
   if (!p) return;
-  const subtotal = money.format(p.price * qty);
+  const pick = getPick(id);
+  const opt = p.options[pick.opt];
+  const total = money.format(opt.price * pick.qty);
+
   const msg =
-    `¡Hola Sabor a Hogar! 🍝\n` +
+    `¡Hola Sabor a Hogar!\n` +
     `Quisiera hacer el siguiente pedido:\n\n` +
-    `• ${qty} x ${p.name} (${p.unit}) — ${subtotal}\n\n` +
-    `*Total: ${subtotal}*\n\n` +
-    `¡Gracias! 🙌`;
+    `• ${lineText(p, opt, pick.qty)}\n\n` +
+    `*Total: ${total}*\n\n` +
+    `¡Gracias!`;
+
   window.open(buildWhatsAppLink(msg), "_blank", "noopener");
 }
 
-function askAboutProduct(id) {
-  const p = getProduct(id);
-  if (!p) return;
-  const msg = `¡Hola! 👋 Quisiera consultar por *${p.name}* (${money.format(p.price)} / ${p.unit}).`;
-  window.open(buildWhatsAppLink(msg), "_blank", "noopener");
-}
+function buildOrderMessage(name, delivery, address, payment, notes) {
+  const lines = cartEntries().map(({ product, option, qty }) => `• ${lineText(product, option, qty)}`);
 
-function buildOrderMessage(name, delivery, address, notes) {
-  const lines = cartEntries().map(
-    ({ product, qty }) =>
-      `• ${qty} x ${product.name} (${product.unit}) — ${money.format(product.price * qty)}`
-  );
-
-  let msg = `¡Hola Sabor a Hogar! 🍝\nQuisiera hacer el siguiente pedido:\n\n`;
+  let msg = `¡Hola Sabor a Hogar!\nQuisiera hacer el siguiente pedido:\n\n`;
   msg += lines.join("\n");
   msg += `\n\n*Total: ${money.format(cartTotal())}*\n\n`;
-  msg += `👤 Nombre: ${name}\n`;
-  msg += `🛵 Entrega: ${delivery}\n`;
-  if (delivery === "Envío" && address) msg += `📍 Dirección: ${address}\n`;
-  if (notes) msg += `📝 Notas: ${notes}\n`;
-  msg += `\n¡Gracias! 🙌`;
+  msg += `Nombre: ${name}\n`;
+  msg += `Entrega: ${delivery}\n`;
+  if (delivery === "Envío" && address) msg += `Dirección: ${address}\n`;
+  msg += `Forma de pago: ${payment}\n`;
+  if (notes) msg += `Notas: ${notes}\n`;
+  msg += `\n¡Gracias!`;
   return msg;
+}
+
+/* =========================================
+   BOTÓN VOLVER ARRIBA
+   ========================================= */
+function setupBackToTop() {
+  const btn = $("#backTop");
+  if (!btn) return;
+
+  const toggle = () => {
+    btn.classList.toggle("is-visible", window.scrollY > 500);
+  };
+  window.addEventListener("scroll", toggle, { passive: true });
+  btn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+  toggle();
 }
 
 /* =========================================
@@ -317,10 +363,11 @@ function buildOrderMessage(name, delivery, address, notes) {
    ========================================= */
 document.addEventListener("DOMContentLoaded", () => {
   $("#year").textContent = new Date().getFullYear();
-  $("#footerWsp").href = buildWhatsAppLink("¡Hola! Quisiera hacer una consulta sobre las pastas. 🍝");
+  $("#footerWsp").href = buildWhatsAppLink("¡Hola! Quisiera hacer una consulta sobre las pastas.");
 
   renderProducts();
   renderCart();
+  setupBackToTop();
 
   // Filtros
   $("#filters").addEventListener("click", (e) => {
@@ -337,17 +384,26 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!btn) return;
     const { action, id } = btn.dataset;
 
-    if (action === "plus") changePickQty(id, 1);
-    if (action === "minus") changePickQty(id, -1);
-    if (action === "add") addToCart(id, getPickQty(id));
-    if (action === "buy") buyNow(id, getPickQty(id));
-    if (action === "ask") askAboutProduct(id);
+    if (action === "opt") {
+      getPick(id).opt = Number(btn.dataset.idx);
+      updateCard(id);
+    }
+    if (action === "plus") {
+      getPick(id).qty = Math.min(50, getPick(id).qty + 1);
+      updateCard(id);
+    }
+    if (action === "minus") {
+      getPick(id).qty = Math.max(1, getPick(id).qty - 1);
+      updateCard(id);
+    }
+    if (action === "add") addToCart(id);
+    if (action === "buy") buyNow(id);
   });
 
   // Quitar desde el carrito
   $("#cartItems").addEventListener("click", (e) => {
     const btn = e.target.closest("[data-action='remove']");
-    if (btn) removeFromCart(btn.dataset.id);
+    if (btn) removeFromCart(btn.dataset.key);
   });
 
   // Abrir / cerrar carrito
@@ -386,21 +442,27 @@ document.addEventListener("DOMContentLoaded", () => {
     refreshCart();
   });
 
-  // Enviar pedido del carrito
+  // Enviar pedido del carrito y vaciarlo después
   $("#orderForm").addEventListener("submit", (e) => {
     e.preventDefault();
 
     if (cartEntries().length === 0) {
-      alert("Tu carrito está vacío. Agregá al menos un producto. 🍝");
+      alert("Tu carrito está vacío. Agregá al menos un producto.");
       return;
     }
 
     const name = $("#customerName").value.trim();
     const delivery = $("input[name='delivery']:checked").value;
     const address = $("#address").value.trim();
+    const payment = $("input[name='payment']:checked").value;
     const notes = $("#notes").value.trim();
 
-    const message = buildOrderMessage(name, delivery, address, notes);
+    const message = buildOrderMessage(name, delivery, address, payment, notes);
     window.open(buildWhatsAppLink(message), "_blank", "noopener");
+
+    // El pedido ya se envió: vaciamos el carrito
+    cart = {};
+    refreshCart();
+    closeCart();
   });
 });

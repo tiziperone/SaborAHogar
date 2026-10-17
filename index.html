@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sabor a Hogar | Pastas Caseras</title>
-  <meta name="description" content="Pastas caseras hechas a mano. Pedidos por WhatsApp." />
+  <meta name="description" content="Ravioles, sorrentinos y fideos caseros, hechos a mano. Pedidos por WhatsApp." />
   <link rel="icon" href="Fotos/Logo.webp" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -13,7 +13,7 @@
 </head>
 <body>
 
-  <!-- HEADER -->
+    <!-- HEADER -->
   <header class="header" id="inicio">
     <div class="container header__inner">
       <a href="#inicio" class="brand">
@@ -24,19 +24,28 @@
         <a href="#como-pedir">Cómo pedir</a>
         <a href="#nosotros">Nosotros</a>
       </nav>
-      <button class="cart-btn" id="openCartTop" aria-label="Abrir carrito">
-        🛒 <span id="cartCountTop">0</span>
-      </button>
+      <div class="header__actions">
+        <a href="https://www.instagram.com/saborahogar.pastas" target="_blank" rel="noopener" class="ig-btn" aria-label="Instagram de Sabor a Hogar">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+            <circle cx="12" cy="12" r="4"></circle>
+            <circle cx="17.5" cy="6.5" r="0.9" fill="currentColor" stroke="none"></circle>
+          </svg>
+        </a>
+        <button class="cart-btn" id="openCartTop" aria-label="Abrir carrito">
+          🛒 <span id="cartCountTop">0</span>
+        </button>
+      </div>
     </div>
   </header>
 
   <!-- HERO -->
   <section class="hero">
     <div class="container hero__content">
-      <span class="hero__tag">Hechas a mano todos los días</span>
-      <h1>Pasta fresca,<br /><em>como en casa</em></h1>
-      <p>Ñoquis, ravioles, sorrentinos y tallarines elaborados con ingredientes simples y mucho amor. Elegí, sumá al carrito y pedí por WhatsApp.</p>
-      <a href="#productos" class="btn btn--primary">Ver productos</a>
+      <span class="hero__tag">Hechas a mano y con amor</span>
+      <h1>Pastas caseras,<br /><em>como en casa</em></h1>
+      <p>Ravioles, sorrentinos y fideos. Elegí la pasta que te guste y la cantidad que desees.</p>
+      <a href="#productos" class="btn btn--hero">Ver productos</a>
     </div>
     <div class="hero__wave" aria-hidden="true"></div>
   </section>
@@ -47,14 +56,14 @@
       <div class="section__head">
         <span class="ornament">❦</span>
         <h2>Nuestras pastas</h2>
-        <p>Elaboradas por encargo. Consultá disponibilidad para tu fecha.</p>
+        <p>Elaboradas por encargo. Consultá sobre las pastas que quieras.</p>
       </div>
 
       <div class="filters" id="filters">
         <button class="chip is-active" data-filter="todas">Todas</button>
-        <button class="chip" data-filter="rellenas">Rellenas</button>
-        <button class="chip" data-filter="clasicas">Clásicas</button>
-        <button class="chip" data-filter="combos">Combos</button>
+        <button class="chip" data-filter="ravioles">Ravioles</button>
+        <button class="chip" data-filter="sorrentinos">Sorrentinos</button>
+        <button class="chip" data-filter="fideos">Fideos</button>
       </div>
 
       <div class="grid" id="productGrid"></div>
@@ -72,7 +81,7 @@
         <article class="step">
           <div class="step__num">1</div>
           <h3>Elegí</h3>
-          <p>Sumá las pastas que quieras al carrito.</p>
+          <p>Seleccioná la pasta que te guste y la cantidad que desees. Podés elegir "Comprar" o "Al carrito" para seguir sumando otras pastas.</p>
         </article>
         <article class="step">
           <div class="step__num">2</div>
@@ -94,7 +103,7 @@
       <div class="about__text">
         <span class="ornament">❦</span>
         <h2>Una receta de familia</h2>
-        <p>Sabor a Hogar nace de la cocina de casa: harina, huevo, agua y paciencia. Cada pasta se estira, se rellena y se corta a mano para que llegue a tu mesa tal como la haríamos nosotros.</p>
+        <p>Sabor a Hogar nace de la cocina de casa: harina, huevo, agua y mucho cariño. Cada pasta se estira, se rellena y se corta a mano para que llegue a tu mesa tal como la haríamos nosotros.</p>
         <p>Sin conservantes, con ingredientes de estación y con el sabor de siempre.</p>
       </div>
       <div class="about__badge">
@@ -108,17 +117,35 @@
     <div class="container footer__inner">
       <img src="Fotos/Logo.webp" alt="Sabor a Hogar" class="footer__logo" />
       <p>Pastas caseras · Hechas a mano</p>
-      <a href="#" id="footerWsp" target="_blank" rel="noopener">Consultanos por WhatsApp</a>
+
+      <div class="social">
+        <span class="social__title">¡Visitá nuestras redes!</span>
+        <a href="https://www.instagram.com/saborahogar.pastas" target="_blank" rel="noopener" class="social__card">
+          <span class="social__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8">
+              <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+              <circle cx="12" cy="12" r="4"></circle>
+              <circle cx="17.5" cy="6.5" r="0.9" fill="currentColor" stroke="none"></circle>
+            </svg>
+          </span>
+          <span class="social__user">@saborahogar.pastas</span>
+        </a>
+      </div>
+
+      <a href="#" id="footerWsp" class="footer__wsp">Consultanos por WhatsApp</a>
       <small>© <span id="year"></span> Sabor a Hogar</small>
     </div>
   </footer>
 
-  <!-- FLOATING CART -->
+  <!-- CARRITO FLOTANTE -->
   <button class="cart-float" id="openCartFloat" aria-label="Ver carrito">
     🛒 <span id="cartCountFloat">0</span>
   </button>
 
-  <!-- CART DRAWER -->
+  <!-- BOTÓN VOLVER ARRIBA -->
+  <button class="back-top" id="backTop" aria-label="Volver arriba">↑</button>
+
+  <!-- DRAWER DEL CARRITO -->
   <div class="overlay" id="overlay"></div>
   <aside class="cart" id="cart" aria-hidden="true">
     <div class="cart__header">
@@ -138,18 +165,26 @@
         <span>Entrega</span>
         <div class="radio-group">
           <label><input type="radio" name="delivery" value="Retiro" checked /> Retiro</label>
-          <label><input type="radio" name="delivery" value="Envío" /> Envío</label>
+          <label><input type="radio" name="delivery" value="Envío" /> Envío (solo Florencia, Santa Fe)</label>
         </div>
       </div>
 
       <label id="addressField" class="is-hidden">
         Dirección
-        <input type="text" id="address" placeholder="Calle, número, barrio" />
+        <input type="text" id="address" placeholder="Calle y número" />
       </label>
 
+      <div class="field">
+        <span>Forma de pago</span>
+        <div class="radio-group">
+          <label><input type="radio" name="payment" value="Efectivo" checked /> Efectivo</label>
+          <label><input type="radio" name="payment" value="Transferencia" /> Transferencia</label>
+        </div>
+      </div>
+
       <label>
-        Notas
-        <textarea id="notes" rows="2" placeholder="Ej: sin queso, para mañana al mediodía"></textarea>
+        Informacion adicional
+        <textarea id="notes" rows="2" placeholder="Ej: Pedir para un determinado día y horario (Con tres dias de anticipacion)"></textarea>
       </label>
 
       <div class="cart__total">
@@ -157,9 +192,7 @@
         <strong id="cartTotal">$0</strong>
       </div>
 
-      <button type="submit" class="btn btn--whatsapp" id="sendOrder">
-        Enviar pedido por WhatsApp
-      </button>
+      <button type="submit" class="btn btn--whatsapp">Enviar pedido por WhatsApp</button>
       <button type="button" class="btn btn--ghost" id="clearCart">Vaciar carrito</button>
     </form>
   </aside>
