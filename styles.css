@@ -233,13 +233,31 @@ button, input, textarea { font: inherit; color: inherit; }
   opacity: 0.9;
 }
 
+/* Transición suave del hero hacia la página, sin medialuna */
 .hero__wave {
   position: absolute;
-  bottom: -2px;
-  left: 0; right: 0;
-  height: 90px;
-  background: var(--cream-2);
-  clip-path: ellipse(60% 100% at 50% 100%);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 140px;
+  background: linear-gradient(
+    180deg,
+    rgba(236, 220, 182, 0) 0%,
+    var(--cream) 100%
+  );
+  pointer-events: none;
+}
+
+/* Línea dorada fina en el borde inferior del hero */
+.hero::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: min(240px, 60%);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
 }
 
 /* ======================
