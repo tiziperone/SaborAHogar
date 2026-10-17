@@ -165,7 +165,7 @@ button, input, textarea { font: inherit; color: inherit; }
    ====================== */
 .hero {
   position: relative;
-  padding: 6rem 0 5rem;
+  padding: 8rem 0 5rem;
   text-align: center;
   background:
     radial-gradient(circle at 15% 20%, rgba(212, 181, 122, 0.55), transparent 45%),
@@ -837,7 +837,7 @@ button, input, textarea { font: inherit; color: inherit; }
 }
 
 @media (max-width: 480px) {
-  .hero { padding: 4rem 0 4.5rem; }
+  .hero { padding: 6rem 0 4.5rem; }
   .brand img { width: 52px; height: 52px; }
   .card__media { height: 180px; }
   .card__actions { grid-template-columns: 1fr; }

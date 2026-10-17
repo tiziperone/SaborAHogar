@@ -15,7 +15,7 @@ const PRODUCTS = [
   {
     id: "fideos-huevo",
     name: "Fideos de huevo",
-    desc: "Tallarines frescos al huevo, cortados a mano.",
+    desc: "Fideos frescos al huevo, un clásico que siempre va bien.",
     category: "fideos",
     image: "Fotos/FideosTarjeta.webp",
     badge: "",
@@ -27,9 +27,21 @@ const PRODUCTS = [
   {
     id: "fideos-espinaca",
     name: "Fideos de espinaca",
-    desc: "Fideos verdes de espinaca, perfectos para salsas cremosas.",
+    desc: "Fideos verdes de espinaca, especiales para darle color a tu plato.",
     category: "fideos",
     image: "Fotos/FideosEspinacaTarjeta.webp",
+    badge: "",
+    options: [
+      { label: "500 g", price: 4000 },
+      { label: "1 kg", price: 7000 }
+    ]
+  },
+  {
+    id: "fideos-remolacha",
+    name: "Fideos de remolacha",
+    desc: "Fideos rojos de remolacha, especiales para darle color a tu plato.",
+    category: "fideos",
+    image: "Fotos/FideosRemolachaTarjeta.webp",
     badge: "",
     options: [
       { label: "500 g", price: 4000 },
@@ -53,7 +65,7 @@ const PRODUCTS = [
   {
     id: "raviolones-ricota-espinaca",
     name: "Raviolones de ricota y espinaca",
-    desc: "Ricota cremosa con espinaca, con masa fina de huevo.",
+    desc: "Ricota cremosa con espinaca, con masa de huevo.",
     category: "ravioles",
     image: "Fotos/RaviolesTarjeta.webp",
     badge: "",
@@ -250,7 +262,7 @@ function renderCart() {
   const container = $("#cartItems");
 
   if (items.length === 0) {
-    container.innerHTML = `<p class="cart__empty">Todavía no agregaste nada. ¡Elegí tus pastas favoritas! 🍝</p>`;
+    container.innerHTML = `<p class="cart__empty">Todavía no agregaste nada 😔. ¡Elegí tus pastas favoritas! 🍝</p>`;
   } else {
     container.innerHTML = items
       .map(
