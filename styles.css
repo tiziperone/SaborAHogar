@@ -644,7 +644,7 @@ button, input, textarea { font: inherit; color: inherit; }
 .back-top:hover { background: var(--gold-soft); }
 
 /* ======================
-   DRAWER DEL CARRITO
+   DRAWER DEL CARRITO (un solo scroll para todo el panel)
    ====================== */
 .overlay {
   position: fixed;
@@ -667,20 +667,23 @@ button, input, textarea { font: inherit; color: inherit; }
   z-index: 80;
   transform: translateX(100%);
   transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-  display: flex;
-  flex-direction: column;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   box-shadow: -10px 0 40px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
 }
 .cart.is-open { transform: translateX(0); }
 
+/* Encabezado fijo arriba mientras se desplaza el resto */
 .cart__header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1.4rem 1.5rem;
+  background: var(--paper);
   border-bottom: 1px solid var(--gold-soft);
-  flex-shrink: 0;
 }
 .cart__header h3 {
   font-family: var(--serif);
@@ -688,20 +691,15 @@ button, input, textarea { font: inherit; color: inherit; }
   font-weight: 600;
 }
 
-/* La lista ocupa el espacio disponible y hace scroll sola;
-   el formulario queda siempre accesible debajo */
+/* Lista de productos: sin scroll propio */
 .cart__items {
-  flex: 1 1 auto;
-  min-height: 0;
-  overflow-y: auto;
-  overscroll-behavior: contain;
   padding: 1rem 1.5rem;
 }
 
 .cart__empty {
   text-align: center;
   color: var(--brown-soft);
-  padding: 3rem 0;
+  padding: 2rem 0;
   font-style: italic;
 }
 
@@ -725,17 +723,14 @@ button, input, textarea { font: inherit; color: inherit; }
   text-decoration: underline;
 }
 
+/* Formulario: continúa debajo de la lista, mismo fondo, sin scroll propio */
 .cart__form {
-  flex-shrink: 0;
-  max-height: 60%;
-  overflow-y: auto;
-  overscroll-behavior: contain;
   padding: 1.2rem 1.5rem 1.5rem;
   border-top: 1px solid var(--gold-soft);
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
-  background: var(--cream);
+  background: var(--paper);
 }
 
 .cart__form label,
@@ -753,7 +748,7 @@ button, input, textarea { font: inherit; color: inherit; }
   padding: 0.7rem 0.9rem;
   border: 1px solid var(--gold-soft);
   border-radius: 12px;
-  background: var(--paper);
+  background: var(--cream);
   font-weight: 400;
   outline: none;
   transition: border 0.2s;
@@ -770,7 +765,7 @@ button, input, textarea { font: inherit; color: inherit; }
   padding: 0.6rem 1rem;
   border: 1px solid var(--gold-soft);
   border-radius: 999px;
-  background: var(--paper);
+  background: var(--cream);
   cursor: pointer;
   font-weight: 500;
 }
