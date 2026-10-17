@@ -1,0 +1,25 @@
+{
+  "name": "Sabor a Hogar | Pastas Caseras",
+  "short_name": "Sabor a Hogar",
+  "description": "Ravioles, sorrentinos y fideos caseros. Pedidos por WhatsApp.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ecdcb6",
+  "theme_color": "#4a3520",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "Fotos/Logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "Fotos/Logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
