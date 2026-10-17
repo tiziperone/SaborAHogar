@@ -54,7 +54,7 @@ const PRODUCTS = [
     id: "raviolones-jamon-queso",
     name: "Raviolones de jamón y queso",
     desc: "Rellenos generosos de jamón cocido y queso.",
-    category: "ravioles",
+    category: "raviolones",
     image: "Fotos/RaviolesTarjeta.webp",
     badge: "",
     options: [
@@ -64,9 +64,9 @@ const PRODUCTS = [
   },
   {
     id: "raviolones-ricota-espinaca",
-    name: "Raviolones de ricota y espinaca",
-    desc: "Ricota cremosa con espinaca, con masa de huevo.",
-    category: "ravioles",
+    name: "Raviolones de ricota y verduras",
+    desc: "Relleno suave de ricota y verduras, con masa de huevo.",
+    category: "raviolones",
     image: "Fotos/RaviolesTarjeta.webp",
     badge: "",
     options: [
@@ -90,8 +90,8 @@ const PRODUCTS = [
   },
   {
     id: "sorrentinos-ricota-espinaca",
-    name: "Sorrentinos de ricota y espinaca",
-    desc: "Relleno suave de ricota y espinaca, con masa fina de huevo.",
+    name: "Sorrentinos de ricota y verduras",
+    desc: "Relleno suave de ricota y espinaca, con masa fina.",
     category: "sorrentinos",
     image: "Fotos/SorrentinosTarjeta.webp",
     badge: "",
