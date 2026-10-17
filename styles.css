@@ -104,9 +104,9 @@ button, input, textarea { font: inherit; color: inherit; }
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgba(236, 220, 182, 0.95);
+  background: var(--brown);
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--gold-soft);
+  border-bottom: 1px solid var(--gold);
 }
 
 .header__inner {
@@ -131,13 +131,14 @@ button, input, textarea { font: inherit; color: inherit; }
   text-transform: uppercase;
   letter-spacing: 0.12em;
   position: relative;
+  color: var(--cream);
 }
 .nav a::after {
   content: "";
   position: absolute;
   left: 0; bottom: -4px;
   width: 0; height: 1px;
-  background: var(--gold);
+  background: var(--gold-soft);
   transition: width 0.3s;
 }
 .nav a:hover::after { width: 100%; }
@@ -149,20 +150,22 @@ button, input, textarea { font: inherit; color: inherit; }
 }
 
 .cart-btn {
-  background: var(--paper);
+  background: var(--brown-soft);
+  color: var(--cream);
   border: 1px solid var(--gold);
   padding: 0.5rem 1rem;
   border-radius: 999px;
   cursor: pointer;
   font-weight: 600;
 }
+.cart-btn:hover { background: var(--sage-dark); }
 
 /* ======================
    HERO
    ====================== */
 .hero {
   position: relative;
-  padding: 6rem 0 8rem;
+  padding: 6rem 0 5rem;
   text-align: center;
   background:
     radial-gradient(circle at 15% 20%, rgba(212, 181, 122, 0.55), transparent 45%),
@@ -205,6 +208,33 @@ button, input, textarea { font: inherit; color: inherit; }
   opacity: 0.9;
 }
 
+/* Divisor: línea dorada + ornamento centrado, al pie del hero */
+.hero__divider {
+  position: absolute;
+  left: 50%;
+  bottom: 3.2rem;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: var(--gold);
+  font-size: 1.3rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+.hero__divider::before,
+.hero__divider::after {
+  content: "";
+  display: block;
+  width: min(180px, 28vw);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold));
+}
+.hero__divider::after {
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+
 /* Transición suave del hero hacia la página */
 .hero__wave {
   position: absolute;
@@ -212,24 +242,8 @@ button, input, textarea { font: inherit; color: inherit; }
   right: 0;
   bottom: 0;
   height: 140px;
-  background: linear-gradient(
-    180deg,
-    rgba(236, 220, 182, 0) 0%,
-    var(--cream) 100%
-  );
+  background: linear-gradient(180deg, rgba(236, 220, 182, 0) 0%, var(--cream) 100%);
   pointer-events: none;
-}
-
-/* Línea dorada fina en el borde inferior del hero */
-.hero::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  transform: translateX(-50%);
-  width: min(240px, 60%);
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
 }
 
 /* ======================
@@ -644,7 +658,7 @@ button, input, textarea { font: inherit; color: inherit; }
 .back-top:hover { background: var(--gold-soft); }
 
 /* ======================
-   DRAWER DEL CARRITO (un solo scroll para todo el panel)
+   DRAWER DEL CARRITO
    ====================== */
 .overlay {
   position: fixed;
@@ -673,7 +687,6 @@ button, input, textarea { font: inherit; color: inherit; }
 }
 .cart.is-open { transform: translateX(0); }
 
-/* Encabezado fijo arriba mientras se desplaza el resto */
 .cart__header {
   position: sticky;
   top: 0;
@@ -691,7 +704,6 @@ button, input, textarea { font: inherit; color: inherit; }
   font-weight: 600;
 }
 
-/* Lista de productos: sin scroll propio */
 .cart__items {
   padding: 1rem 1.5rem;
 }
@@ -723,7 +735,6 @@ button, input, textarea { font: inherit; color: inherit; }
   text-decoration: underline;
 }
 
-/* Formulario: continúa debajo de la lista, mismo fondo, sin scroll propio */
 .cart__form {
   padding: 1.2rem 1.5rem 1.5rem;
   border-top: 1px solid var(--gold-soft);
@@ -807,7 +818,6 @@ button, input, textarea { font: inherit; color: inherit; }
   .about__badge { order: -1; }
 }
 
-/* Celular: el header pasa a dos filas (logo + carrito, y después el menú completo) */
 @media (max-width: 640px) {
   .header__inner {
     flex-wrap: wrap;
@@ -827,10 +837,11 @@ button, input, textarea { font: inherit; color: inherit; }
 }
 
 @media (max-width: 480px) {
-  .hero { padding: 4rem 0 6rem; }
+  .hero { padding: 4rem 0 4.5rem; }
   .brand img { width: 52px; height: 52px; }
   .card__media { height: 180px; }
   .card__actions { grid-template-columns: 1fr; }
+  .hero__divider { bottom: 2.6rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
