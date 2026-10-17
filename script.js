@@ -18,7 +18,7 @@ const PRODUCTS = [
     desc: "Tallarines frescos al huevo, cortados a mano.",
     category: "fideos",
     image: "Fotos/FideosTarjeta.webp",
-    badge: "Más vendido",
+    badge: "",
     options: [
       { label: "500 g", price: 3500 },
       { label: "1 kg", price: 6000 }
@@ -250,7 +250,7 @@ function renderCart() {
   const container = $("#cartItems");
 
   if (items.length === 0) {
-    container.innerHTML = `<p class="cart__empty">Todavía no agregaste nada 😔. ¡Elegí tus pastas favoritas! 🍝</p>`;
+    container.innerHTML = `<p class="cart__empty">Todavía no agregaste nada. ¡Elegí tus pastas favoritas! 🍝</p>`;
   } else {
     container.innerHTML = items
       .map(
@@ -422,9 +422,16 @@ document.addEventListener("DOMContentLoaded", () => {
     $("#overlay").classList.add("is-open");
     document.body.style.overflow = "hidden";
   };
+
   const closeCart = () => {
-    $("#cart").classList.remove("is-open");
-    $("#cart").setAttribute("aria-hidden", "true");
+    const cartEl = $("#cart");
+    // Quitamos el foco de cualquier elemento dentro del carrito antes de ocultarlo
+    if (cartEl.contains(document.activeElement)) {
+      document.activeElement.blur();
+      $("#openCartTop").focus();
+    }
+    cartEl.classList.remove("is-open");
+    cartEl.setAttribute("aria-hidden", "true");
     $("#overlay").classList.remove("is-open");
     document.body.style.overflow = "";
   };
