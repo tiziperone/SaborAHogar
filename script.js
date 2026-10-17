@@ -18,7 +18,7 @@ const PRODUCTS = [
     desc: "Tallarines frescos al huevo, cortados a mano.",
     category: "fideos",
     image: "Fotos/FideosTarjeta.webp",
-    badge: "Clásico",
+    badge: "Más vendido",
     options: [
       { label: "500 g", price: 3500 },
       { label: "1 kg", price: 6000 }
@@ -44,7 +44,7 @@ const PRODUCTS = [
     desc: "Rellenos generosos de jamón cocido y queso.",
     category: "ravioles",
     image: "Fotos/RaviolesTarjeta.webp",
-    badge: "Más pedido",
+    badge: "",
     options: [
       { label: "Media docena", price: 5000 },
       { label: "Docena", price: 9000 }
@@ -342,6 +342,15 @@ function buildOrderMessage(name, delivery, address, payment, notes) {
 }
 
 /* =========================================
+   LIMPIAR FORMULARIO DEL CARRITO
+   ========================================= */
+function resetOrderForm() {
+  $("#orderForm").reset();          // vuelve a Retiro / Efectivo y vacía los campos
+  $("#addressField").classList.add("is-hidden");
+  $("#address").required = false;
+}
+
+/* =========================================
    BOTÓN VOLVER ARRIBA
    ========================================= */
 function setupBackToTop() {
@@ -442,7 +451,7 @@ document.addEventListener("DOMContentLoaded", () => {
     refreshCart();
   });
 
-  // Enviar pedido del carrito y vaciarlo después
+  // Enviar pedido: abre WhatsApp, vacía el carrito y limpia los campos
   $("#orderForm").addEventListener("submit", (e) => {
     e.preventDefault();
 
@@ -460,9 +469,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const message = buildOrderMessage(name, delivery, address, payment, notes);
     window.open(buildWhatsAppLink(message), "_blank", "noopener");
 
-    // El pedido ya se envió: vaciamos el carrito
+    // El pedido ya se envió: vaciamos carrito y formulario
     cart = {};
     refreshCart();
+    resetOrderForm();
     closeCart();
   });
 });
