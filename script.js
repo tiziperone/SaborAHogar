@@ -326,6 +326,33 @@ function buildWhatsAppLink(message) {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 }
 
+/* Abre WhatsApp de forma confiable en celulares */
+function goToWhatsApp(message) {
+  const url = buildWhatsAppLink(message);
+  // En móviles, location.href es más confiable que window.open
+  window.location.href = url;
+}
+
+/* Deja la interfaz limpia (sirve al volver desde WhatsApp) */
+function resetUIState() {
+  document.body.style.overflow = "";
+
+  const buyOverlay = $("#buyOverlay");
+  if (buyOverlay) {
+    buyOverlay.classList.remove("is-open");
+    buyOverlay.setAttribute("aria-hidden", "true");
+  }
+  pendingBuy = null;
+
+  const cartEl = $("#cart");
+  if (cartEl) {
+    cartEl.classList.remove("is-open");
+    cartEl.setAttribute("aria-hidden", "true");
+  }
+  const overlay = $("#overlay");
+  if (overlay) overlay.classList.remove("is-open");
+}
+
 /* Arma el mensaje para cualquier lista de items ({product, option, qty}) */
 function buildOrderMessage(items, name, delivery, address, payment, notes) {
   const lines = items.map(({ product, option, qty }) => `• ${lineText(product, option, qty)}`);
@@ -521,10 +548,11 @@ function setupBuyModal() {
 
     const items = [{ product: pendingBuy.product, option: pendingBuy.option, qty: pendingBuy.qty }];
     const message = buildOrderMessage(items, name, delivery, address, payment, notes);
-    window.open(buildWhatsAppLink(message), "_blank", "noopener");
 
+    // Primero limpiamos todo, después salimos hacia WhatsApp
     resetBuyForm();
     closeBuyModal();
+    goToWhatsApp(message);
   });
 }
 
@@ -645,7 +673,7 @@ document.addEventListener("DOMContentLoaded", () => {
     refreshCart();
   });
 
-  // Enviar pedido del carrito: abre WhatsApp, vacía el carrito y limpia los campos
+  // Enviar pedido del carrito: vacía el carrito, limpia los campos y abre WhatsApp
   $("#orderForm").addEventListener("submit", (e) => {
     e.preventDefault();
 
@@ -661,11 +689,29 @@ document.addEventListener("DOMContentLoaded", () => {
     const notes = $("#notes").value.trim();
 
     const message = buildOrderMessage(cartEntries(), name, delivery, address, payment, notes);
-    window.open(buildWhatsAppLink(message), "_blank", "noopener");
 
     cart = {};
     refreshCart();
     resetOrderForm();
     closeCart();
+    goToWhatsApp(message);
   });
+});
+
+/* =========================================
+   VOLVER DESDE WHATSAPP
+   Al regresar, el navegador puede restaurar la página
+   desde caché con el estado a medias: lo reseteamos.
+   ========================================= */
+window.addEventListener("pageshow", (e) => {
+  resetUIState();
+  if (e.persisted) {
+    const active = document.querySelector(".chip.is-active");
+    renderProducts(active ? active.dataset.filter : "todas");
+    renderCart();
+  }
+});
+
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible") resetUIState();
 });

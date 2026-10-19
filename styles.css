@@ -309,7 +309,7 @@ button, input, textarea { font: inherit; color: inherit; }
   display: flex;
   flex-direction: column;
   transition: transform 0.3s, box-shadow 0.3s;
-  animation: fadeUp 0.5s ease both;
+  animation: fadeUp 0.5s ease backwards;
 }
 .card:hover {
   transform: translateY(-6px);
