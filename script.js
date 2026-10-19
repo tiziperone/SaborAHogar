@@ -108,6 +108,7 @@ const PRODUCTS = [
 const STORAGE_KEY = "sabor-a-hogar-cart-v2";
 let cart = loadCart();   // { "id__idx": cantidad }
 let pickState = {};      // { id: { opt: 0, qty: 1 } }
+let pendingBuy = null;   // { product, option, qty } para el modal "Comprar"
 
 /* =========================================
    HELPERS
@@ -162,8 +163,12 @@ function cartEntries() {
     .filter((item) => item.product && item.option);
 }
 
+function itemsTotal(items) {
+  return items.reduce((sum, { option, qty }) => sum + option.price * qty, 0);
+}
+
 function cartTotal() {
-  return cartEntries().reduce((sum, { option, qty }) => sum + option.price * qty, 0);
+  return itemsTotal(cartEntries());
 }
 
 function cartCount() {
@@ -321,29 +326,13 @@ function buildWhatsAppLink(message) {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 }
 
-function buyNow(id) {
-  const p = getProduct(id);
-  if (!p) return;
-  const pick = getPick(id);
-  const opt = p.options[pick.opt];
-  const total = money.format(opt.price * pick.qty);
-
-  const msg =
-    `¡Hola Sabor a Hogar!\n` +
-    `Quisiera hacer el siguiente pedido:\n\n` +
-    `• ${lineText(p, opt, pick.qty)}\n\n` +
-    `*Total: ${total}*\n\n` +
-    `¡Gracias!`;
-
-  window.open(buildWhatsAppLink(msg), "_blank", "noopener");
-}
-
-function buildOrderMessage(name, delivery, address, payment, notes) {
-  const lines = cartEntries().map(({ product, option, qty }) => `• ${lineText(product, option, qty)}`);
+/* Arma el mensaje para cualquier lista de items ({product, option, qty}) */
+function buildOrderMessage(items, name, delivery, address, payment, notes) {
+  const lines = items.map(({ product, option, qty }) => `• ${lineText(product, option, qty)}`);
 
   let msg = `¡Hola Sabor a Hogar!\nQuisiera hacer el siguiente pedido:\n\n`;
   msg += lines.join("\n");
-  msg += `\n\n*Total: ${money.format(cartTotal())}*\n\n`;
+  msg += `\n\n*Total: ${money.format(itemsTotal(items))}*\n\n`;
   msg += `Nombre: ${name}\n`;
   msg += `Entrega: ${delivery}\n`;
   if (delivery === "Envío" && address) msg += `Dirección: ${address}\n`;
@@ -357,9 +346,186 @@ function buildOrderMessage(name, delivery, address, payment, notes) {
    LIMPIAR FORMULARIO DEL CARRITO
    ========================================= */
 function resetOrderForm() {
-  $("#orderForm").reset();          // vuelve a Retiro / Efectivo y vacía los campos
+  $("#orderForm").reset();
   $("#addressField").classList.add("is-hidden");
   $("#address").required = false;
+}
+
+/* =========================================
+   MODAL "COMPRAR" (pedido de un solo producto)
+   ========================================= */
+function injectBuyStyles() {
+  const style = document.createElement("style");
+  style.textContent = `
+    .buy-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(40, 30, 20, 0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      z-index: 90;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .buy-overlay.is-open { opacity: 1; pointer-events: auto; }
+    .buy-modal {
+      background: var(--paper);
+      width: min(460px, 100%);
+      max-height: 92vh;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      border-radius: var(--radius);
+      border: 1px solid var(--gold-soft);
+      box-shadow: var(--shadow);
+      transform: translateY(20px);
+      transition: transform 0.3s;
+    }
+    .buy-overlay.is-open .buy-modal { transform: translateY(0); }
+    .buy-modal .cart__header { border-radius: var(--radius) var(--radius) 0 0; }
+    .buy-summary { padding: 1rem 1.5rem 0; }
+    .buy-summary h4 { font-weight: 600; font-size: 0.95rem; }
+    .buy-summary .sub { font-size: 0.8rem; color: var(--brown-soft); }
+    .buy-actions { display: flex; flex-direction: column; gap: 0.5rem; }
+  `;
+  document.head.appendChild(style);
+}
+
+function buildBuyModal() {
+  const overlay = document.createElement("div");
+  overlay.className = "buy-overlay";
+  overlay.id = "buyOverlay";
+  overlay.setAttribute("aria-hidden", "true");
+
+  overlay.innerHTML = `
+    <div class="buy-modal" role="dialog" aria-modal="true" aria-labelledby="buyTitle">
+      <div class="cart__header">
+        <h3 id="buyTitle">Tu compra</h3>
+        <button class="icon-btn" id="closeBuy" type="button" aria-label="Cerrar">✕</button>
+      </div>
+
+      <div class="buy-summary" id="buySummary"></div>
+
+      <form class="cart__form" id="buyForm">
+        <label>
+          Nombre
+          <input type="text" id="buyName" placeholder="Tu nombre" required />
+        </label>
+
+        <div class="field">
+          <span>Entrega</span>
+          <div class="radio-group">
+            <label><input type="radio" name="buyDelivery" value="Retiro" checked /> Retiro</label>
+            <label><input type="radio" name="buyDelivery" value="Envío" /> Envío (norte de Santa Fe y Corrientes Capital)</label>
+          </div>
+        </div>
+
+        <label id="buyAddressField" class="is-hidden">
+          Dirección
+          <input type="text" id="buyAddress" placeholder="Localidad, calle y altura" />
+        </label>
+
+        <div class="field">
+          <span>Forma de pago</span>
+          <div class="radio-group">
+            <label><input type="radio" name="buyPayment" value="Efectivo" checked /> Efectivo</label>
+            <label><input type="radio" name="buyPayment" value="Transferencia" /> Transferencia</label>
+          </div>
+        </div>
+
+        <label>
+          Informacion adicional (opcional)
+          <textarea id="buyNotes" rows="2" placeholder="Ej: Pedir para un determinado día y horario (Con tres dias de anticipacion)"></textarea>
+        </label>
+
+        <div class="cart__total">
+          <span>Total</span>
+          <strong id="buyTotal">$0</strong>
+        </div>
+
+        <div class="buy-actions">
+          <button type="submit" class="btn btn--whatsapp">Enviar pedido por WhatsApp</button>
+          <button type="button" class="btn btn--ghost" id="cancelBuy">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+}
+
+function openBuyModal(id) {
+  const p = getProduct(id);
+  if (!p) return;
+
+  const pick = getPick(id);
+  const option = p.options[pick.opt];
+  pendingBuy = { product: p, option, qty: pick.qty };
+
+  $("#buySummary").innerHTML = `
+    <h4>${p.name}</h4>
+    <div class="sub">${option.label} · ${money.format(option.price)} × ${pick.qty}</div>
+  `;
+  $("#buyTotal").textContent = money.format(option.price * pick.qty);
+
+  const overlay = $("#buyOverlay");
+  overlay.classList.add("is-open");
+  overlay.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+  setTimeout(() => $("#buyName").focus(), 50);
+}
+
+function closeBuyModal() {
+  const overlay = $("#buyOverlay");
+  overlay.classList.remove("is-open");
+  overlay.setAttribute("aria-hidden", "true");
+  pendingBuy = null;
+  document.body.style.overflow = "";
+}
+
+function resetBuyForm() {
+  $("#buyForm").reset();
+  $("#buyAddressField").classList.add("is-hidden");
+  $("#buyAddress").required = false;
+}
+
+function setupBuyModal() {
+  buildBuyModal();
+  injectBuyStyles();
+
+  $("#closeBuy").addEventListener("click", closeBuyModal);
+  $("#cancelBuy").addEventListener("click", closeBuyModal);
+  $("#buyOverlay").addEventListener("click", (e) => {
+    if (e.target.id === "buyOverlay") closeBuyModal();
+  });
+
+  $$("input[name='buyDelivery']").forEach((radio) => {
+    radio.addEventListener("change", () => {
+      const isShipping = $("input[name='buyDelivery']:checked").value === "Envío";
+      $("#buyAddressField").classList.toggle("is-hidden", !isShipping);
+      $("#buyAddress").required = isShipping;
+    });
+  });
+
+  $("#buyForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (!pendingBuy) return;
+
+    const name = $("#buyName").value.trim();
+    const delivery = $("input[name='buyDelivery']:checked").value;
+    const address = $("#buyAddress").value.trim();
+    const payment = $("input[name='buyPayment']:checked").value;
+    const notes = $("#buyNotes").value.trim();
+
+    const items = [{ product: pendingBuy.product, option: pendingBuy.option, qty: pendingBuy.qty }];
+    const message = buildOrderMessage(items, name, delivery, address, payment, notes);
+    window.open(buildWhatsAppLink(message), "_blank", "noopener");
+
+    resetBuyForm();
+    closeBuyModal();
+  });
 }
 
 /* =========================================
@@ -383,12 +549,15 @@ function setupBackToTop() {
    EVENTOS
    ========================================= */
 document.addEventListener("DOMContentLoaded", () => {
-  $("#year").textContent = new Date().getFullYear();
-  $("#footerWsp").href = buildWhatsAppLink("¡Hola! Quisiera hacer una consulta sobre las pastas.");
-
+  // 1) Primero la grilla y el carrito: lo esencial no depende de nada más
   renderProducts();
   renderCart();
-  setupBackToTop();
+
+  // 2) Después lo demás, cada cosa aislada para que un error no corte el resto
+  try { $("#year").textContent = new Date().getFullYear(); } catch (err) { console.error(err); }
+  try { $("#footerWsp").href = buildWhatsAppLink("¡Hola! Quisiera hacer una consulta sobre las pastas."); } catch (err) { console.error(err); }
+  try { setupBackToTop(); } catch (err) { console.error(err); }
+  try { setupBuyModal(); } catch (err) { console.error("Error en modal Comprar:", err); }
 
   // Filtros
   $("#filters").addEventListener("click", (e) => {
@@ -418,7 +587,7 @@ document.addEventListener("DOMContentLoaded", () => {
       updateCard(id);
     }
     if (action === "add") addToCart(id);
-    if (action === "buy") buyNow(id);
+    if (action === "buy") openBuyModal(id);
   });
 
   // Quitar desde el carrito
@@ -437,7 +606,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const closeCart = () => {
     const cartEl = $("#cart");
-    // Quitamos el foco de cualquier elemento dentro del carrito antes de ocultarlo
     if (cartEl.contains(document.activeElement)) {
       document.activeElement.blur();
       $("#openCartTop").focus();
@@ -452,9 +620,16 @@ document.addEventListener("DOMContentLoaded", () => {
   $("#openCartTop").addEventListener("click", openCart);
   $("#closeCart").addEventListener("click", closeCart);
   $("#overlay").addEventListener("click", closeCart);
-  document.addEventListener("keydown", (e) => e.key === "Escape" && closeCart());
 
-  // Dirección sólo si es envío
+  // Escape cierra el modal de compra si está abierto; si no, el carrito
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    const buyOpen = $("#buyOverlay") && $("#buyOverlay").classList.contains("is-open");
+    if (buyOpen) closeBuyModal();
+    else closeCart();
+  });
+
+  // Dirección sólo si es envío (carrito)
   $$("input[name='delivery']").forEach((radio) => {
     radio.addEventListener("change", () => {
       const isShipping = $("input[name='delivery']:checked").value === "Envío";
@@ -470,7 +645,7 @@ document.addEventListener("DOMContentLoaded", () => {
     refreshCart();
   });
 
-  // Enviar pedido: abre WhatsApp, vacía el carrito y limpia los campos
+  // Enviar pedido del carrito: abre WhatsApp, vacía el carrito y limpia los campos
   $("#orderForm").addEventListener("submit", (e) => {
     e.preventDefault();
 
@@ -485,10 +660,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const payment = $("input[name='payment']:checked").value;
     const notes = $("#notes").value.trim();
 
-    const message = buildOrderMessage(name, delivery, address, payment, notes);
+    const message = buildOrderMessage(cartEntries(), name, delivery, address, payment, notes);
     window.open(buildWhatsAppLink(message), "_blank", "noopener");
 
-    // El pedido ya se envió: vaciamos carrito y formulario
     cart = {};
     refreshCart();
     resetOrderForm();
